@@ -18,18 +18,18 @@ class ItemModel{
 
   ItemModel.fromJson(Map<String, dynamic> parsedJson)
     : id = parsedJson['id'],
-      deleted = parsedJson['deleted'],
+      deleted = parsedJson['deleted'] ?? false,  //if dead is null then default value
       type = parsedJson['type'],
       by = parsedJson['by'],
       time = parsedJson['time'],
-      text = parsedJson['text'],
-      dead = parsedJson['dead'],
+      text = parsedJson['text']??"",  //if dead is null then default value
+      dead = parsedJson['dead'] ?? false,  //if dead is null then default value
       parent = parsedJson['parent'],
-      kids = parsedJson['kids'],
+      kids = parsedJson['kids'] ?? [],  //if dead is null then default value
       url = parsedJson['url'],
       score = parsedJson['score'],
       title = parsedJson['title'],
-      descendants = parsedJson['descendants'];
+      descendants = parsedJson['descendants'] ?? 0;
 
   ItemModel.fromDb(Map<String, dynamic> parsedJson)
     : id = parsedJson['id'],

@@ -27,6 +27,7 @@ dependencies:
   path_provider: 
   http:
   test:
+  rxdart:
 
 dev_dependencies:
   flutter_test:

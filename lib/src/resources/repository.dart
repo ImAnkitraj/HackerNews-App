@@ -14,6 +14,7 @@ class Repository {
   }
 
   Future<ItemModel> fetchItem(int id) async {
+    
     // var item = await dbProvider.fetchItem(id);
     // if(item != null){
     //   return item;
@@ -23,7 +24,7 @@ class Repository {
     // return item;
 
     ItemModel item;
-    Source source;
+    var source;
     for(source in sources){
       item = await source.fetchItem(id);
       if(item!=null){
@@ -32,9 +33,17 @@ class Repository {
     }
 
     for(var cache in caches){
-      cache.addItem(item);
+      // if(cache != (source as Cache)){To tell dart that this source is Cache type
+      if(cache != source){
+        cache.addItem(item);
+      }
     }
     return item;
+  }
+  clearCache() async{
+    for(var cache in caches){
+      await cache.clear();
+    }
   }
 }
 
@@ -45,4 +54,5 @@ abstract class Source {
 
 abstract class Cache {
   Future<int> addItem(ItemModel item); 
+  Future<int> clear();
 }
