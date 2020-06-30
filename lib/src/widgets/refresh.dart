@@ -14,6 +14,7 @@ class Refresh extends StatelessWidget{
         await bloc.clearCache();
         await bloc.fetchTopIds();
       },
+      displacement: 30.0,
     );
   }
 }
