@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:news/src/models/item_model.dart';
+import 'package:news/src/widgets/loading_container.dart';
+import 'package:test/test.dart';
 import '../blocs/comments_provider.dart';
 import 'dart:async';
+import '../widgets/comment.dart';
 
 class NewsDetail extends StatelessWidget {
   final int itemId;
@@ -30,10 +33,28 @@ class NewsDetail extends StatelessWidget {
             if(!itemSnapshot.hasData){
               return Text('Loading Future');
             }
-            return buildTitle(itemSnapshot.data) ;
+            return buildList(itemSnapshot.data, snapshot.data) ;
           },
         );
       },
+    );
+  }
+
+  Widget buildList(ItemModel item, Map<int, Future<ItemModel>> itemMap){
+    final children = <Widget>[];
+    children.add(buildTitle(item));
+    // children.add(buildDetail(item));
+    // children.add(Container(child: Text('Comments'),));
+    final commentsList = item.kids.map((kidId){
+      return Comment(
+        itemId: kidId,
+        itemMap: itemMap,
+        depth: 1,
+      );
+    }).toList();
+    children.addAll(commentsList);
+    return ListView(
+      children: children,
     );
   }
   Widget buildTitle(ItemModel item){
@@ -50,4 +71,9 @@ class NewsDetail extends StatelessWidget {
       ),
     );
   } 
+  Widget buildDetail(ItemModel item){
+    return Container(
+      child: Text(item.text),
+    );
+  }
 }
